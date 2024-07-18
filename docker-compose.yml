@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: ahmedsallam2/mysql
+    container_name: root
+    environment:
+      MYSQL_ROOT_PASSWORD: AaHh2288@  
+      MYSQL_USER: root
+      MYSQL_DATABASE: employees       
+    ports:
+      - "3307:3306"
+    networks:
+      - spring-network
+
+  app:
+    image: ahmedsallam2/springboot-mysql-docker
+    container_name: springboot-mysql-docker
+    ports:
+      - "9090:8080"
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/employees
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: AaHh2288@
+      SPRING_JPA_HIBERNATE_DDL_AUTO: create-drop
+    networks:
+      - spring-network
+
+networks:
+  spring-network:
+    driver: bridge
